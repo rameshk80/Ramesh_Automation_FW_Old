@@ -8,11 +8,10 @@ public class TestMain {
     public static void main(String[] args) throws InterruptedException {
         Properties properties = new Properties();
         WebdriverFactory objDriverFactory = new WebdriverFactory();
-        WebDriver driver = objDriverFactory.getWebdriver();
+        objDriverFactory.initializeWebdriver();
 
-        driver.get(properties.getProperty("URL"));
+        objDriverFactory.navigateTo();
         Thread.sleep(4000);
-        driver.quit();
-
+        objDriverFactory.quit();
     }
 }
