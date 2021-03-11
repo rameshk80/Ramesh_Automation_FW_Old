@@ -1,24 +1,43 @@
 package SelWork;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import sun.nio.cs.StandardCharsets;
 
-public class ExcelFileAccess {
-    private String inputFileName;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+
+public class ExcelFileAccess extends Main{
+    List<TestCase> allTestCases = new ArrayList<TestCase>();
 
     ExcelFileAccess()
     {
-        inputFileName = "/Users/rasandesh/Code/Java/src/SelWork/TestCases.xlsx";
     }
 
-    private void openFile()
+    public void readAllTestCases()
     {
         FileInputStream inputFile;
+        String lineOfString;
         try {
-            inputFile = new FileInputStream(inputFileName);
+            BufferedReader reader = new BufferedReader( new FileReader(config.getInputFile()));
+            reader.readLine(); // read the first line and skip that since its a header
+
+            while((lineOfString = reader.readLine()) != null)
+            {
+                String[] fullString = lineOfString.split(",");
+                if(fullString != null)
+                {
+                    TestCase newTestCase = new TestCase();
+                    newTestCase.assignValue(fullString);
+                    allTestCases.add(newTestCase);
+                    if(config.getLogLevel() == Log.DETAIL) {
+                        System.out.println(newTestCase.toString());
+                    }
+                }
+            }
         }
-        catch (FileNotFoundException e)
-        {
+        catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

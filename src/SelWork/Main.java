@@ -13,9 +13,12 @@ public class Main {
     public static void main(String[] args) throws InterruptedException {
         properties = new Properties();
         config = new Configuration();
-        objDriverFactory = new WebdriverFactory();
-
         config.initializeConfiguration();
+
+        ExcelFileAccess file = new ExcelFileAccess();
+        file.readAllTestCases();
+
+        objDriverFactory = new WebdriverFactory();
         objDriverFactory.initializeWebdriver();
 
         objDriverFactory.navigateTo();
